@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为IUserDao接口方法提供sql语句配置 -->
+<mapper namespace="com.chatRobot.dao.IArticleDao">
+    <!--添加文章-->
+    <insert id="addArticle" parameterType="article">
+
+        INSERT INTO `chatrobot`.`article`
+            (`articleId`,
+            `collarTime`,
+            `articleTitle`,
+            `articleSubTitle`,
+            `articleAuthor`,
+            `updateTime`,
+            `articleTag`,
+            `shopBuyLink`,
+            `articleContent`,
+            `articleImage`,
+            `articleArea`,
+            `articleLanguage`,
+            `articleType`,
+            `articleLink`,
+            `issueState`,
+            `articleLanguageType`,
+            `articleAreaType`,
+            `webSiteType`
+            )
+            VALUES
+            (#{articleId},
+            #{collarTime},
+            #{articleTitle},
+            #{articleSubTitle},
+            #{articleAuthor},
+            #{updateTime},
+            #{articleTag},
+            #{shopBuyLink},
+            #{articleContent},
+            #{articleImage},
+            #{articleArea},
+            #{articleLanguage},
+            #{articleType},
+            #{articleLink},
+            #{issueState},
+            #{articleLanguageType},
+            #{articleAreaType},
+            #{webSiteType}
+            );
+
+    </insert>
+
+    <!--查询所有文章-->
+    <select id="showAll" parameterType="article" resultType="article">
+
+        SELECT 	`articleId`,
+            `collarTime`,
+            `articleTitle`,
+            `articleSubTitle`,
+            `articleAuthor`,
+            `updateTime`,
+            `articleTag`,
+            `shopBuyLink`,
+            `articleContent`,
+            `articleImage`,
+            `articleArea`,
+            `articleLanguage`,
+            `articleType`,
+            `articleLink`,
+            `issueState`,
+            `articleLanguageType`,
+            `articleAreaType`,
+            `webSiteType`
+            FROM
+            `chatrobot`.`article`
+
+    </select>
+
+    <!--更新文章-->
+    <update id="updateArticle" parameterType="article">
+
+        UPDATE `chatrobot`.`article`
+            SET
+            `articleId` = #{articleId } ,
+            `collarTime` = #{collarTime } ,
+            `articleTitle` = #{articleTitle } ,
+            `articleSubTitle` = #{articleSubTitle } ,
+            `articleAuthor` = #{articleAuthor } ,
+            `updateTime` = #{updateTime } ,
+            `articleTag` = #{articleTag } ,
+            `shopBuyLink` = #{shopBuyLink } ,
+            `articleContent` = #{articleContent } ,
+            `articleImage` = #{articleImage } ,
+            `articleArea` = #{articleArea } ,
+            `articleLanguage` = #{articleLanguage } ,
+            `articleType` = #{articleType } ,
+            `articleLink` = #{articleLink },
+            `issueState` = #{issueState},
+            `articleLanguageType`= #{articleLanguageType},
+            `articleAreaType`= #{articleAreaType},
+            `webSiteType` = #{webSiteType}
+
+            WHERE
+            `articleId` = #{articleId} ;
+    </update>
+
+    <!--根据id删除文章-->
+    <delete id="delete" >
+      delete from article where articleId = #{id }
+    </delete>
+    <!--查询网站类型文章-->
+    <select id="showArticle" parameterType="int" resultType="article">
+        SELECT 	`articleId`,
+            `collarTime`,
+            `articleTitle`,
+            `articleSubTitle`,
+            `articleAuthor`,
+            `updateTime`,
+            `articleTag`,
+            `shopBuyLink`,
+            `articleContent`,
+            `articleImage`,
+            `articleArea`,
+            `articleLanguage`,
+            `articleType`,
+            `articleLink`,
+            `issueState`,
+            `articleLanguageType`,
+            `articleAreaType`,
+            `webSiteType`
+        FROM
+        `chatrobot`.`article`
+        WHERE webSiteType=#{webSiteType};
+
+    </select>
+
+    <!--发布文章-->
+    <select id="issueArticle" parameterType="int" resultType="article">
+
+        SELECT 	`articleId`,
+            `collarTime`,
+            `articleTitle`,
+            `articleSubTitle`,
+            `articleAuthor`,
+            `updateTime`,
+            `articleTag`,
+            `shopBuyLink`,
+            `articleContent`,
+            `articleImage`,
+            `articleArea`,
+            `articleLanguage`,
+            `articleType`,
+            `articleLink`,
+            `issueState`,
+            `articleLanguageType`,
+            `articleAreaType`,
+            `webSiteType`
+
+            FROM
+            `chatrobot`.`article`
+            WHERE
+             articleId=#{articleId}
+    </select>
+
+    <!--分页查询-->
+    <select id="queryPageArticle" parameterType="map" resultType="article">
+        SELECT 	`articleId`,
+            `collarTime`,
+            `articleTitle`,
+            `articleSubTitle`,
+            `articleAuthor`,
+            `updateTime`,
+            `articleTag`,
+            `shopBuyLink`,
+            `articleContent`,
+            `articleImage`,
+            `articleArea`,
+            `articleLanguage`,
+            `articleType`,
+            `articleLink`,
+            `issueState`,
+            `articleLanguageType`,
+            `articleAreaType`,
+            `webSiteType`
+
+            FROM
+            `chatrobot`.`article`
+            WHERE webSiteType = #{webSiteType} order by articleId DESC
+            limit #{page},#{rows}
+
+    </select>
+
+    <!--查询文章总数-->
+    <select id="queryArticleCount" parameterType="int" resultType="int">
+        SELECT count(1) FROM article WHERE webSiteType=#{webSiteType};
+    </select>
+
+    <!--根据文章标题查询文章列表-->
+    <select id="queryArticleTitle" parameterType="string" resultType="article">
+          SELECT 	`articleId`,
+            `collarTime`,
+            `articleTitle`,
+            `articleSubTitle`,
+            `articleAuthor`,
+            `updateTime`,
+            `articleTag`,
+            `shopBuyLink`,
+            `articleContent`,
+            `articleImage`,
+            `articleArea`,
+            `articleLanguage`,
+            `articleType`,
+            `articleLink`,
+            `issueState`,
+            `articleLanguageType`,
+            `articleAreaType`,
+            `webSiteType`
+
+            FROM
+            `chatrobot`.`article`
+            WHERE articleTitle = #{articleTitle}
+    </select>
+
+
+    <select id="queryPageIssueArticle" parameterType="map" resultType="article">
+        SELECT 	`articleId`,
+        `collarTime`,
+        `articleTitle`,
+        `articleSubTitle`,
+        `articleAuthor`,
+        `updateTime`,
+        `articleTag`,
+        `shopBuyLink`,
+        `articleContent`,
+        `articleImage`,
+        `articleArea`,
+        `articleLanguage`,
+        `articleType`,
+        `articleLink`,
+        `issueState`,
+        `articleLanguageType`,
+        `articleAreaType`,
+        `webSiteType`
+
+        FROM
+        `chatrobot`.`article`
+        WHERE webSiteType = #{webSiteType} AND issueState = #{issueState} order by articleId DESC
+        limit #{page},#{rows}
+
+    </select>
+
+    <select id="queryIssueArticleCount" parameterType="map" resultType="int">
+        SELECT count(1) FROM article WHERE webSiteType = #{webSiteType} AND issueState = #{issueState}
+    </select>
+
+    <!--批量删除-->
+    <delete id="batchDalete" parameterType="int">
+        DELETE FROM article WHERE articleId IN
+        <foreach collection="ids" item = "id" open="(" separator="," close=")">
+          #{id}
+        </foreach>
+    </delete>
+
+    <!--根据时间删除文章-->
+    <delete id="deleteAll" parameterType="string">
+        DELETE FROM article WHERE collarTime LIKE #{collarTime}
+    </delete>
+
+    <!--定时删除数据-->
+    <update id="deleteTime">
+        truncate table article;
+    </update>
+</mapper>

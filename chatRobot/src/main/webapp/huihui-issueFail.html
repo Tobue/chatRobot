@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+
+		<!-- CSS样式 -->
+		<link rel="stylesheet" type="text/css" href="ui/themes/default/easyui.css">
+		<link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
+		<!-- js基础库 -->
+		<script type="text/javascript" src="ui/jquery.min.js"></script>
+		<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+
+		<!-- 国际化 -->
+		<script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+
+		<script type="text/javascript" src="js/comcom-f.js"></script>
+	</head>
+	<body>
+		<table id="dg"></table>
+		<input type="hidden" id="issue" value="2">
+		<div style="display: none">
+			<div id="articleDiv">
+				<table id="articleTable" align="center" height="100%" width="100%">
+					<tr>
+						<td>编号ID:</td>
+						<td><input id="articleId" type="text" name="articleId"></td>
+					</tr>
+					<tr>
+						<td>抓取时间:</td>
+						<td><input id="collarTime" type="text" name="collarTime"></td>
+					</tr>
+					<tr>
+						<td>发布状态:</td>
+						<td><input id="issueState" type="text" name="issueState"></td>
+					</tr>
+					<tr>
+						<td>标题:</td>
+						<td>
+							<input id="articleTitle" type="text" style="width: 400px;height: 50px" name="articleTitle">
+						</td>
+					</tr>
+					<tr>
+						<td>副标题:</td>
+						<td><input id="articleSubTitle" type="text" style="width: 400px;height: 50px" name="articleSubTitle"></td>
+					</tr>
+					<tr>
+						<td>标签:</td>
+						<td><input id="articleTag" type="text" style="width: 350px;height: 35px" name="articleTag"></td>
+					</tr>
+					<tr>
+						<td>内容:</td>
+						<td>
+							<textarea id="articleContent" style="height: 150px;width: 100%;resize: none;" name="articleContent"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td>去购买链接:</td>
+						<td><input id="shopBuyLink" type="text" style="width: 350px;height: 35px" name="shopBuyLink"></td>
+					</tr>
+					<tr>
+						<td>图片:</td>
+						<td><input id="articleImage" type="text" style="width: 350px;height: 35px" name="articleImage"></td>
+					</tr>
+					<tr>
+						<td>文章链接:</td>
+						<td><input id="articleLink" type="text" style="width: 350px;height: 35px" name="articleLink"></td>
+					</tr>
+					<tr>
+						<td>
+							<button id="buttonId" onclick="updateArticle()">提交</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</body>
+</html>

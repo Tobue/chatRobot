@@ -1,0 +1,10 @@
+diff a/chatRobot/src/main/resources/jdbc.properties b/chatRobot/src/main/resources/jdbc.properties	(rejected hunks)
+@@ -5,7 +5,7 @@
+ jdbc.username=root
+ #����
+ jdbc.password=123456
+-#jdbc.password=game7.cc
++#jdbc.password=game7
+ #���������
+ c3p0.maxPoolSize=30
+ #��С������

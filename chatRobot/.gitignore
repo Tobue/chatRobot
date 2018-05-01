@@ -1,0 +1,10 @@
+target/
+*.log
+upload/*
+**/.DS_store
+.idea/
+symphony.iml
+/bin/
+/.settings/
+/.classpath
+/.project

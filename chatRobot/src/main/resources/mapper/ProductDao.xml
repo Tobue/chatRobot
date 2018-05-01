@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chatRobot.dao.IProductDao">
+    <!--添加上商品-->
+    <insert id="addProduct" parameterType="product">
+        INSERT INTO `chatrobot`.`product`
+            (`productId`,
+            `crawlerTime`,
+            `productTitle`,
+            `productPrice`,
+            `productLink`
+            )
+            VALUES
+            (#{productId},
+            #{crawlerTime},
+            #{productTitle},
+            #{productPrice},
+            #{productLink}
+            );
+
+    </insert>
+</mapper>

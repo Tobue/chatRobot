@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+
+		<!-- CSS样式 -->
+		<link rel="stylesheet" type="text/css" href="ui/themes/default/easyui.css">
+		<link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
+		<!-- js基础库 -->
+		<script type="text/javascript" src="ui/jquery.min.js"></script>
+		<script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+
+		<!-- 国际化 -->
+		<script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+
+		<script type="text/javascript">
+
+			$(function() {
+				$('#dg').datagrid({
+					//访问的网络接口地址，请求，获取json返回值
+					url: 'article/showArticle?articleType=5',
+					method: 'get',
+					striped: true,
+					pagination: true,				
+					//currentPage
+					pageNumber: 1,
+                    nowrap: true,
+                    autoRowHeight:false,
+                    pageList: [5, 10, 20, 30],
+					//columns:所有的列
+					columns: [
+						[{
+								//属性,json中的key
+								field: 'articleId',
+								// 标题,给ui界面显示的表的列名
+								title: '编号ID',
+								//宽度
+								width: 100,
+								editor:{type:'numberbox',options:{
+                                precision:2,
+                                prefix:'￥'}}
+							},
+							{
+							    field:'collarTime',
+								title:'抓取时间',
+								width:100,
+								editor:{
+							        type:'numberbox',
+								}
+							},
+							{
+								field: 'articleTitle',
+								title: '标题',
+								width: 200
+							},
+							{
+								field: 'articleSubTitle',
+								title: '副标题',
+								width: 200,
+							},
+							{
+							  	field:'articleAuthor',
+								title:'作者',
+								width:150,
+							},
+							{
+							  	field:'updateTime',
+								title:'更新时间',
+								width:150
+							},
+							{
+								field: 'articleTag',
+								title: '标签',
+								width: 200
+							},
+                            {
+                                field: 'shopBuyLink',
+                                title: '去购买链接',
+                                width: 200
+                            },
+							{
+								field: 'articleContent',
+								title: '内容',
+								width: 250,
+							},
+							{
+								field: 'articleImage',
+								title: '图片',
+								width: 100
+							},
+							{
+								field: 'articleArea',
+								title: '区域',
+								width: 100
+							},
+							{
+								field: 'articleLanguage',
+								title: '语言',
+								width: 100
+							},
+							{
+								field: 'articleType',
+								title: '类型',
+								width: 100
+							},
+							{
+								field: 'articleLink',
+								title: '文章链接',
+								width: 100
+							},{
+					    		field:'-',
+								title:'TapDealing',
+								width:100,
+								formatter:function (value,row,index) {
+					    		    var ret = '<a href="javascript:void(0)" onclick="issueArticle('+row.articleId+')">发布</a>';
+									return ret;
+                                }
+							},
+                            {
+                                field:'^',
+                                title:'操作',
+                                width:100,
+                                formatter: function(value,row,index){
+                                    var articleId = row.articleId;
+                                    var oper = '<a href="javascript:void(0)" onclick="deleteArticle('+articleId+')">删除</a>';
+                                    return oper;
+                                }
+
+                            }
+						]
+					],
+                    onDblClickRow: function(rowIndex, rowData){   //双击一行,弹出窗口,获取数值
+                        $('#articleDiv').dialog({
+                            title: '文章详情',
+                            width: 500,
+                            height: 600,
+                            closed: false,
+                            cache: false,
+                           // href: '/customer/demo.html',
+                            modal: true,
+                            minimizable:true,
+                            maximizable:true
+                        });
+                        $("#articleDiv").css("display","block");
+                        $("#articleId").val(rowData.articleId);
+                        $("#collarTime").val(rowData.collarTime);
+                        $("#articleTitle").val(rowData.articleTitle);
+                        $("#articleSubTitle").val(rowData.articleSubTitle);
+                        $("#articleAuthor").val(rowData.articleAuthor);
+                        $("#updateTime").val(rowData.updateTime);
+                        $("#articleTag").val(rowData.articleTag);
+                        $("#shopBuyLink").val(rowData.shopBuyLink);
+                        $("#articleContent").val(rowData.articleContent);
+                        $("#articleImage").val(rowData.articleImage);
+                        $("#articleArea").val(rowData.articleArea);
+                        $("#articleLanguage").val(rowData.articleLanguage);
+                        $("#articleType").val(rowData.articleType);
+                        $("#articleLink").val(rowData.articleLink);
+					},
+				});
+			});
+
+			/**
+			 *	根据id删除文章
+			 */
+            function deleteArticle(articleId){
+                $.messager.confirm('确认','您确认想要删除记录吗？',function(r){
+                    if (r){
+                        $.ajax({
+                            url:"article/deleteArticle?id=" + articleId,
+                            type:"put",
+							/*data:{
+                              id:articleId
+							},*/
+                            dataType:"json",
+                            success:function (rtn) {
+                                $.messager.alert("提示",rtn.message,"info",function(){
+										if(rtn.success){
+											$('#dg').datagrid('reload');
+										}
+									});
+                    		}
+                        });
+                    }
+                });
+            }
+
+            /**
+             *更新文章
+             */
+            function updateArticle() {
+                var articleId = $("#articleId").val();
+                var collarTime = $("#collarTime").val();
+                var articleTitle = $("#articleTitle").val();
+                var articleSubTitle = $("#articleSubTitle").val();
+                var articleAuthor = $("#articleAuthor").val();
+                var updateTime = $("#updateTime").val();
+                var articleTag = $("#articleTag").val();
+                var shopBuyLink = $("#shopBuyLink").val();
+                var articleContent = $("#articleContent").val();
+                var articleImage = $("#articleImage").val();
+                var articleArea = $("#articleArea").val();
+                var articleLanguage = $("#articleLanguage").val();
+                var articleType = $("#articleType").val();
+                var articleLink = $("#articleLink").val();
+                var jsonObject = {
+                  	articleId:articleId,
+                    collarTime:collarTime,
+                    articleTitle:articleTitle,
+                    articleSubTitle:articleSubTitle,
+                    articleAuthor:articleAuthor,
+                    updateTime:updateTime,
+                    articleTag:articleTag,
+                    shopBuyLink:shopBuyLink,
+                    articleContent:articleContent,
+                    articleImage:articleImage,
+                    articleArea:articleArea,
+                    articleLanguage:articleLanguage,
+                    articleType:articleType,
+                    articleLink:articleLink
+				};
+                var jsonString = JSON.stringify(jsonObject);
+             	$.ajax({
+					url:"article/updateArticle",
+					type:"post",
+					data:{
+					    article:jsonString
+					},
+					dataType:"json",
+					success:function (rtn) {
+                        $.messager.alert('提示',rtn.message,'info',function(){
+							if(rtn.success){
+								$("#articleDiv").dialog("close");
+                                $('#dg').datagrid('reload');
+							}
+                        });
+                    }
+				});   
+            }
+
+            /**
+			 *发布文章
+             */
+            function issueArticle(articleId) {
+				$.ajax({
+					url:"article/issueArticle",
+					type:'get',
+					data:{
+					    articleId:articleId
+					},
+					dataType:'json',
+					success:function (rtn) {
+                        $.messager.alert("提示",rtn.message,"info",function(){
+                            if(rtn.success){
+                                //发布成功之后,改变这一行的颜色
+                                $('#dg').datagrid('reload');
+                            }
+                        });
+                    }
+				});
+            }
+		</script>
+	</head>
+	<body>
+		<table id="dg"></table>
+
+		<div id="articleDiv" style="display: none;">
+			<!--<form id="formId" action="/article/updateArticle">-->
+				<table id="articleTable">
+					<tr>
+						<td>编号ID:</td>
+						<td><input id="articleId" type="text" name="articleId"></td>
+					</tr>
+					<tr>
+						<td>抓取时间:</td>
+						<td><input id="collarTime" type="text" name="collarTime"></td>
+					</tr>
+					<tr>
+						<td>标题:</td>
+						<td><input id="articleTitle" type="text" name="articleTitle"></td>
+					</tr>
+					<tr>
+						<td>副标题:</td>
+						<td><input id="articleSubTitle" type="text" name="articleSubTitle"></td>
+					</tr>
+					<tr>
+						<td>作者:</td>
+						<td><input id="articleAuthor" type="text" name="articleAuthor"></td>
+					</tr>
+					<tr>
+						<td>更新时间:</td>
+						<td><input id="updateTime" type="text" name="updateTime"></td>
+					</tr>
+					<tr>
+						<td>标签:</td>
+						<td><input id="articleTag" type="text" name="articleTag"></td>
+					</tr><tr>
+						<td>去购买链接:</td>
+						<td><input id="shopBuyLink" type="text" name="shopBuyLink"></td>
+					</tr>
+					<tr>
+						<td>内容:</td>
+						<td>
+							<textarea id="articleContent" style="height: 100px;width: 100%;resize: none;" name="articleContent"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td>图片:</td>
+						<td><input id="articleImage" type="text" name="articleImage"></td>
+					</tr>
+					<tr>
+						<td>区域:</td>
+						<td><input id="articleArea" type="text" name="articleArea"></td>
+					</tr>
+					<tr>
+						<td>语言:</td>
+						<td><input id="articleLanguage" type="text" name="articleLanguage"></td>
+					</tr>
+					<tr>
+						<td>类型:</td>
+						<td><input id="articleType" type="text" name="articleType"></td>
+					</tr>
+					<tr>
+						<td>文章链接:</td>
+						<td><input id="articleLink" type="text" name="articleLink"></td>
+					</tr>
+					<tr>
+						<td>
+							<!--<input class="easyui-linkbutton" data-options="iconCls:'icon-save'" type="submit" value="发布">-->
+							<button id="buttonId" onclick="updateArticle()">提交</button>
+						</td>
+					</tr>
+				</table>
+			<!--</form>-->
+		</div>
+	</body>
+</html>

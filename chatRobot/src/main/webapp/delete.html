@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+    <!-- CSS样式 -->
+    <link rel="stylesheet" type="text/css" href="ui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="ui/themes/icon.css">
+    <!-- js基础库 -->
+    <script type="text/javascript" src="ui/jquery.min.js"></script>
+    <script type="text/javascript" src="ui/jquery.easyui.min.js"></script>
+    <!-- 国际化 -->
+    <script type="text/javascript" src="ui/locale/easyui-lang-zh_CN.js"></script>
+
+    <script type="text/javascript">
+        /**
+         * 删除昨天
+         *
+         */
+        function deleteYesterday() {
+            var yesterday = GetDateStr(-1);
+            $.ajax({
+                url:"article/deleteAll",
+                data:{
+                    collarTime:yesterday
+                },
+                type:'post',
+                dataType:'json',
+                success:function (rtn) {
+                    $.messager.alert("提示",rtn.message,"info",function(){
+
+                    });
+                }
+            });
+        }
+
+        /**
+         * 删除前天
+         *
+         */
+        function deleteBeforeYeaterday() {
+            var beforeyesterday = GetDateStr(-2);
+            $.ajax({
+                url:"article/deleteAll",
+                data:{
+                  collarTime:beforeyesterday
+                },
+                type:'post',
+                dataType:'json',
+                success:function (rtn) {
+                    $.messager.alert("提示",rtn.message,"info",function(){
+
+                    });
+                }
+            });
+        }
+
+        /**
+         * 清空数据
+         *
+         */
+        function deleteAll () {
+            var dd = new Date();
+            var y = dd.getFullYear();
+            $.ajax({
+                url:"article/deleteAll",
+                data:{
+                    collarTime:y
+                },
+                type:'post',
+                dataType:'json',
+                success:function (rtn) {
+                    $.messager.alert("提示",rtn.message,"info",function(){
+
+                    });
+                }
+            });
+        }
+
+        /**
+         * 获取当前的时间
+         * @param AddDayCount
+         * @returns {string}
+         * @constructor
+         */
+        function GetDateStr(AddDayCount) {
+            var dd = new Date();
+            dd.setDate(dd.getDate() + AddDayCount); //获取AddDayCount天后的日期
+            var y = dd.getFullYear();
+            var m = dd.getMonth() + 1; //获取当前月份的日期
+            var d = dd.getDate();
+            return y + "-" + m + "-" + d;
+        }
+    </script>
+
+</head>
+<body>
+   <button id="yesterday" onclick="deleteYesterday()">昨天</button>
+   <button id="beforeYesterday" onclick="deleteBeforeYeaterday()">前天</button>
+   <button id="deleteAll" onclick="deleteAll()">清空数据</button>
+</body>
+</html>
