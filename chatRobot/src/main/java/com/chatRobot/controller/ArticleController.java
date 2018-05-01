@@ -58,6 +58,7 @@ public class ArticleController {
     public List<Article> showAll(HttpServletResponse response, Model model) {
         List<Article> articles = iArticleService.showAll();
         System.out.println("nihao");
+        System.out.println("大家好!!!!!!");
         return articles;
     }
 
