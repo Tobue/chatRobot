@@ -57,6 +57,7 @@ public class ArticleController {
     @ResponseBody
     public List<Article> showAll(HttpServletResponse response, Model model) {
         List<Article> articles = iArticleService.showAll();
+        System.out.println("nihao");
         return articles;
     }
 
